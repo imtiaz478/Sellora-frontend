@@ -1,30 +1,60 @@
-import React, { useState } from "react";
-import { useEffect } from "react";  
-const TransactionData = () => {
+import React, { useState, useEffect } from "react";
 
+const TransactionData = () => {
+  const [transactions, setTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  // Future backend data will come here
-  const transactions = [];
+  // 🔥 Fetch Transactions
+  const fetchTransactions = () => {
+    const token = localStorage.getItem("token");
+
+    fetch("http://127.0.0.1:5000/api/transactions", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Unauthorized");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setTransactions(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/transactions")
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
+    fetchTransactions();
   }, []);
-  
+
+  // 🔥 Delete Transaction
+  const handleDelete = (id) => {
+    const token = localStorage.getItem("token");
+
+    fetch(`http://127.0.0.1:5000/api/transactions/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        fetchTransactions(); // refresh after delete
+      });
+  };
 
   return (
-    <div className=" py-12 px-4 md:px-8">
+    <div className="py-12 px-4 md:px-8">
       <div className="max-w-10xl mx-auto bg-white rounded-2xl shadow-lg border border-orange-100 p-8">
 
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
           Transaction Data
         </h2>
 
-        {/* Table */}
         <div className="overflow-x-auto">
 
           {transactions.length === 0 ? (
@@ -37,6 +67,7 @@ const TransactionData = () => {
                 <tr className="bg-orange-100 text-gray-700">
                   <th className="p-3">Product</th>
                   <th className="p-3">Total</th>
+                  <th className="p-3">Hold (Days)</th>
                   <th className="p-3">Action</th>
                 </tr>
               </thead>
@@ -44,8 +75,10 @@ const TransactionData = () => {
                 {transactions.map((t) => (
                   <tr key={t.id} className="border-b">
                     <td className="p-3">{t.product}</td>
-                    <td className="p-3">৳ {t.total}</td>
-                    <td className="p-3">
+                    <td className="p-3">৳ {t.total_price}</td>
+                    <td className="p-3">{t.date_diff_days || 0}</td>
+                    <td className="p-3 flex gap-2">
+                      
                       <button
                         onClick={() => setSelectedTransaction(t)}
                         className="px-4 py-2 rounded-lg
@@ -54,6 +87,16 @@ const TransactionData = () => {
                       >
                         View
                       </button>
+
+                      <button
+                        onClick={() => handleDelete(t.id)}
+                        className="px-4 py-2 rounded-lg
+                                   bg-red-500 hover:bg-red-600
+                                   text-white text-sm font-medium"
+                      >
+                        Delete
+                      </button>
+
                     </td>
                   </tr>
                 ))}
@@ -63,7 +106,7 @@ const TransactionData = () => {
 
         </div>
 
-        {/* Modal (Future Ready) */}
+        {/* 🔥 Modal */}
         {selectedTransaction && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8 border border-orange-100">
@@ -73,13 +116,13 @@ const TransactionData = () => {
               </h3>
 
               <div className="space-y-3 text-gray-700">
-                <p><span className="font-semibold">Source:</span> --</p>
-                <p><span className="font-semibold">User/Merchant:</span> --</p>
-                <p><span className="font-semibold">Product/Items:</span> --</p>
-                <p><span className="font-semibold">Price/Total:</span> --</p>
-                <p><span className="font-semibold">Buy Date:</span> --</p>
-                <p><span className="font-semibold">Sell Date:</span> --</p>
-                <p><span className="font-semibold">Date Diff (Days):</span> --</p>
+                <p><span className="font-semibold">Source:</span> {selectedTransaction.source}</p>
+                <p><span className="font-semibold">User/Merchant:</span> {selectedTransaction.user_or_merchant}</p>
+                <p><span className="font-semibold">Product:</span> {selectedTransaction.product}</p>
+                <p><span className="font-semibold">Total:</span> ৳ {selectedTransaction.total_price}</p>
+                <p><span className="font-semibold">Buy Date:</span> {selectedTransaction.buy_date}</p>
+                <p><span className="font-semibold">Sell Date:</span> {selectedTransaction.sell_date || "N/A"}</p>
+                <p><span className="font-semibold">Hold (Days):</span> {selectedTransaction.date_diff_days || 0}</p>
               </div>
 
               <button

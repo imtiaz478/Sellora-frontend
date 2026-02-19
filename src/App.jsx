@@ -13,6 +13,7 @@ import Landing from './pages/Landing'
 // import Deshboard from "./pages/Dashboard";
 import Deshboard from "./pages/DeshBoard";
 import Login from "./pages/Login";  
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 function App() {
   
 
@@ -21,7 +22,9 @@ function App() {
        <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing></Landing>} />
-        <Route path="/dashboard" element={<Deshboard></Deshboard>} />
+        <Route path="/dashboard" element={<ProtectedRoute>
+      <Deshboard></Deshboard>
+    </ProtectedRoute>} />
         <Route path='/login' element={<Login></Login>} /> 
       </Routes>
     </BrowserRouter>

@@ -13,10 +13,31 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    
+    const response = await fetch("http://127.0.0.1:5000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if(response.ok){
+      localStorage.setItem("token", data.token);
+      alert("Login successful!"); 
+
+      window.location.href = "/dashboard";
+    }
+    else{
+      alert(data.error  || "Login failed. Please check your credentials and try again.");
+    }
+
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200">
