@@ -4,7 +4,7 @@ const TransactionData = () => {
   const [transactions, setTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  // 🔥 Fetch Transactions
+ 
   const fetchTransactions = () => {
     const token = localStorage.getItem("token");
 
@@ -31,20 +31,24 @@ const TransactionData = () => {
     fetchTransactions();
   }, []);
 
-  // 🔥 Delete Transaction
-  const handleDelete = (id) => {
+  
+  const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://127.0.0.1:5000/api/transactions/${id}`, {
+    const response = await fetch(`http://127.0.0.1:5000/api/transactions/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        fetchTransactions(); // refresh after delete
-      });
+    });
+    if(response.ok){
+      setTransactions(transactions.filter(t => t.id !== id)); 
+    }
+    else{
+      const data = await response.json();
+      alert("Failed to delete transaction: " + data.message);
+    }
+      
   };
 
   return (
@@ -106,7 +110,7 @@ const TransactionData = () => {
 
         </div>
 
-        {/* 🔥 Modal */}
+        {/*  Modal */}
         {selectedTransaction && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8 border border-orange-100">
