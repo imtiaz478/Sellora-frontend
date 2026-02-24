@@ -44,7 +44,7 @@ const Login = () => {
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
         
         <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">
-          Welcome Back 🔥
+          Welcome Back
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
