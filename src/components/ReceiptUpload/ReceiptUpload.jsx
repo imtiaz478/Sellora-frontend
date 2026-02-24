@@ -8,12 +8,37 @@ const ReceiptUpload = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file);
-      // Later → send to backend
+    if(!file) return;
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("file", file);  
+
+    try{
+      const response = await fetch("http://127.0.0.1:5000/api/upload-csv", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if(response.ok){
+        alert("File uploaded successfully!");
+      }
+      else{
+        alert("File upload failed: " + data.message);
+      }
     }
+    catch(err){
+      console.error("Error uploading file:", err);
+      alert("An error occurred while uploading the file.");
+    } 
   };
 
   return (
@@ -42,14 +67,14 @@ const ReceiptUpload = () => {
         </p>
 
         <p className="text-gray-400 text-sm mt-2">
-          Supports JPG, PNG, and PDF formats
+          Supports CSV,  JPG, PNG, and PDF formats
         </p>
 
         <input
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept=".jpg,.jpeg,.png,.pdf"
+          accept=".jpg,.csv,.jpeg,.png,.pdf"
           className="hidden"
         />
       </div>
