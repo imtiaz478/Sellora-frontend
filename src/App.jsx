@@ -14,6 +14,7 @@ import Landing from './pages/Landing'
 import Deshboard from "./pages/DeshBoard";
 import Login from "./pages/Login";  
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import SignUp from './components/SignUp/SignUp'
 function App() {
   
 
@@ -26,6 +27,7 @@ function App() {
       <Deshboard></Deshboard>
     </ProtectedRoute>} />
         <Route path='/login' element={<Login></Login>} /> 
+        <Route path='/signup' element={<SignUp></SignUp>}/>
       </Routes>
     </BrowserRouter>
 
