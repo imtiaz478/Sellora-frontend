@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+
+const COLORS = ["#EF8411", "#F97316", "#FDBA74", "#FB923C"];
 
 const ProductAnalysis = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    fetch("http://127.0.0.1:5000/api/transactions", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(transactions => {
+
+        const productTotals = {};
+
+        transactions.forEach(t => {
+          if (!productTotals[t.product]) {
+            productTotals[t.product] = 0;
+          }
+          productTotals[t.product] += t.total_price;
+        });
+
+        const chartData = Object.keys(productTotals).map(product => ({
+          name: product,
+          value: productTotals[product]
+        }));
+
+        setData(chartData);
+      });
+  }, []);
+
   return (
-    <div className="bg-orange-50 rounded-2xl  py-12 px-4 md:px-8">
-      
+    <div className="bg-orange-50 rounded-2xl py-12 px-4 md:px-8">
+
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -12,38 +46,50 @@ const ProductAnalysis = () => {
             Product Analysis
           </h2>
           <p className="text-gray-500 mt-2">
-            Revenue and quantity insights
+            Revenue insights by product
           </p>
         </div>
 
-        {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          {/* Total Value Card */}
+          {/* Total Value Chart */}
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100">
             <h3 className="text-lg font-semibold text-gray-700 mb-6">
               TOTAL VALUE BY ITEM
             </h3>
 
-            {/* Dummy Donut Placeholder */}
-            <div className="h-80 flex items-center justify-center">
-              <div className="w-60 h-60 rounded-full 
-                              bg-gradient-to-tr 
-                              from-orange-400 to-orange-500 
-                              flex items-center justify-center">
-                <div className="w-40 h-40 bg-white rounded-full"></div>
+            {data.length === 0 ? (
+              <div className="h-80 flex items-center justify-center text-gray-400">
+                No Data
               </div>
-            </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={data}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={120}
+                    label
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
 
-          {/* Total Quantity Card */}
+          {/* Quantity Placeholder */}
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100">
             <h3 className="text-lg font-semibold text-gray-700 mb-6">
               TOTAL QUANTITY BY ITEM
             </h3>
 
             <div className="h-80 flex items-center justify-center text-orange-400 font-medium">
-              No Data
+              Coming Soon
             </div>
           </div>
 
