@@ -1,6 +1,21 @@
 import React from "react";
 
-const MarketTrends = () => {
+const MarketTrends = ({setTrends}) => {
+
+  const predictDemand = () => {
+    fetch("http://127.0.0.1:5000/api/predict-demand", {
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Predicted demand:", data);
+      setTrends(data);
+    })
+  } 
+
+
   return (
     <div className="bg-orange-50 rounded-2xl py-12 px-4 md:px-8">
       
@@ -27,7 +42,7 @@ const MarketTrends = () => {
 
         {/* Button */}
         <div className="flex justify-center">
-          <button
+          <button onClick={predictDemand}
             className="px-10 py-4 rounded-xl
                        bg-gradient-to-r from-orange-400 to-orange-500
                        hover:from-orange-500 hover:to-orange-600
