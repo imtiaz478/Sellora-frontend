@@ -9,6 +9,7 @@ import AIAssistant from '../components/AIAssistant/AIAssistant';
 import TransactionData from '../components/TransactionData/TransactionData';
 import FooterDash from '../components/FooterDash/FooterDash';
 import DisplayDemand from '../components/DisplayDemand/DisplayDemand';
+import AddTransaction from '../components/AddTransaction/AddTransaction';
 const DeshBoard = () => {
 
     const [trends, setTrends] = useState([]);
@@ -17,7 +18,7 @@ const DeshBoard = () => {
             <NavBarForDash></NavBarForDash>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <ReceiptUpload />
-                    <VoiceInputCard />
+                    <AddTransaction />
             </div>
             <StatusBar></StatusBar>
             
