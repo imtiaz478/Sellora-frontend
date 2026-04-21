@@ -3,7 +3,7 @@ import React from "react";
 const MarketTrends = ({setTrends}) => {
 
   const predictDemand = () => {
-    fetch("http://127.0.0.1:5000/api/predict-demand", {
+    fetch("https://sellora-backend-aafy.onrender.com/api/predict-demand", {
       headers:{
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }

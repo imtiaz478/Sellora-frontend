@@ -10,7 +10,7 @@ const ProductAnalysis = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://127.0.0.1:5000/api/transactions", {
+    fetch("https://sellora-backend-aafy.onrender.com/api/transactions", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -39,7 +39,7 @@ const ProductAnalysis = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://127.0.0.1:5000/api/product-stats", {
+    fetch("https://sellora-backend-aafy.onrender.com/api/product-stats", {
       headers:{
         Authorization: `Bearer ${token}`,
       },

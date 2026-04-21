@@ -22,7 +22,7 @@ const AddTransaction = () => {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://127.0.0.1:5000/api/transactions", {
+    const response = await fetch("https://sellora-backend-aafy.onrender.com/api/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

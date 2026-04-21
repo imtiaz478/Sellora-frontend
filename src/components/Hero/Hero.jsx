@@ -2,40 +2,57 @@ import React from 'react';
 
 const Hero = () => {
     return (
-        <div className=' max-w-8xl w-full grid grid-cols-1 md:grid-cols-2 gap-24 items-center bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden p-4 md:p-16'>
-            <div className=' mx-52  max-w-7xl '>
-                <h1 className=' text-4xl font-bold'>An Intelligent Voice-First <br /> Retail Solution</h1>
-                <br />
-                <p className=' text-gray-500'>Sellora is a smart, voice-enabled retail management platform built for modern retailers who want to move beyond traditional khata systems. <br />
-                It simplifies daily operations by integrating inventory, sales, baki management, and demand prediction into one intelligent system. <br />
-                With the power of Voice AI and real-time analytics, retailers can manage their business faster, smarter, and more efficiently.</p>
-                <br />
-                <div className=' flex'>
-                <img className=' w-[40px]' src="/src/assets/aero.png" alt="" />
-                <p className=' my-1.5'>Sell Using Voice Commands </p>
-                </div>
-                <div className=' flex'>
-                <img className=' w-[40px]' src="/src/assets/aero.png" alt="" />
-                <p className=' my-1.5'>Intelligent Baki Management </p>
-                </div>
-                <div className=' flex'>
-                <img className=' w-[40px]' src="/src/assets/aero.png" alt="" />
-                <p className=' my-1.5'>AI-Based Demand Prediction </p>
-                </div>
-                <div className=' flex'>
-                <img className=' w-[40px]' src="/src/assets/aero.png" alt="" />
-                <p className=' my-1.5'>Seamless Integration Ready</p>
+        <section className="py-12 px-4 sm:px-6 lg:px-12">
+
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+                {/* TEXT SIDE */}
+                <div className="text-center md:text-left space-y-5">
+
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+                        Smart <span className="text-[#EF8411]">Retail System</span>
+                    </h1>
+
+                    <p className="text-gray-500 text-sm sm:text-base md:text-lg max-w-md mx-auto md:mx-0">
+                        Manage inventory, sales, and demand prediction easily with a modern AI-powered system.
+                    </p>
+
+                    {/* FEATURES LIST */}
+                    <ul className="space-y-3 text-gray-700 text-sm sm:text-base">
+
+                        <li className="flex items-center justify-center md:justify-start gap-2">
+                            <span className="text-[#EF8411] text-lg">✔</span>
+                            Voice-Based Sales Entry
+                        </li>
+
+                        <li className="flex items-center justify-center md:justify-start gap-2">
+                            <span className="text-[#EF8411] text-lg">✔</span>
+                            Smart Inventory Tracking
+                        </li>
+
+                        <li className="flex items-center justify-center md:justify-start gap-2">
+                            <span className="text-[#EF8411] text-lg">✔</span>
+                            AI Demand Prediction
+                        </li>
+
+                    </ul>
+
                 </div>
 
+                {/* IMAGE SIDE */}
+                <div className="flex justify-center">
 
-                
-              
-               
+                    <img
+                        className="w-52 sm:w-64 md:w-80 lg:w-96 object-contain"
+                        src="/src/assets/shop.png"
+                        alt="Retail Illustration"
+                    />
+
+                </div>
+
             </div>
-            <div>
-                <img className=' w-[450px] mx-auto' src="/src/assets/shop.png" alt="" />
-            </div>
-        </div>
+
+        </section>
     );
 };
 

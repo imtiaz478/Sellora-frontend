@@ -8,7 +8,7 @@ const TransactionData = () => {
   const fetchTransactions = () => {
     const token = localStorage.getItem("token");
 
-    fetch("http://127.0.0.1:5000/api/transactions", {
+    fetch("https://sellora-backend-aafy.onrender.com/api/transactions", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -35,7 +35,7 @@ const TransactionData = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://127.0.0.1:5000/api/transactions/${id}`, {
+    const response = await fetch(`https://sellora-backend-aafy.onrender.com/api/transactions/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
